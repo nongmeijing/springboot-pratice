@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springbootdemo.infra.mapper.TeacherMapper">
+  <resultMap id="BaseResultMap" type="com.example.springbootdemo.domain.entity.Teacher">
+    <id column="Tno" jdbcType="VARCHAR" property="tno" />
+    <result column="Tname" jdbcType="VARCHAR" property="tname" />
+    <result column="Tsex" jdbcType="VARCHAR" property="tsex" />
+    <result column="Tbirthday" jdbcType="DATE" property="tbirthday" />
+    <result column="Tprof" jdbcType="VARCHAR" property="tprof" />
+    <result column="Depart" jdbcType="VARCHAR" property="depart" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Tno, Tname, Tsex, Tbirthday, Tprof, Depart
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from teacher
+    where Tno = #{tno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from teacher
+    where Tno = #{tno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="Tno" keyProperty="tno" parameterType="com.example.springbootdemo.domain.entity.Teacher" useGeneratedKeys="true">
+    insert into teacher (Tname, Tsex, Tbirthday, 
+      Tprof, Depart)
+    values (#{tname,jdbcType=VARCHAR}, #{tsex,jdbcType=VARCHAR}, #{tbirthday,jdbcType=DATE}, 
+      #{tprof,jdbcType=VARCHAR}, #{depart,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="Tno" keyProperty="tno" parameterType="com.example.springbootdemo.domain.entity.Teacher" useGeneratedKeys="true">
+    insert into teacher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tname != null">
+        Tname,
+      </if>
+      <if test="tsex != null">
+        Tsex,
+      </if>
+      <if test="tbirthday != null">
+        Tbirthday,
+      </if>
+      <if test="tprof != null">
+        Tprof,
+      </if>
+      <if test="depart != null">
+        Depart,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tname != null">
+        #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="tsex != null">
+        #{tsex,jdbcType=VARCHAR},
+      </if>
+      <if test="tbirthday != null">
+        #{tbirthday,jdbcType=DATE},
+      </if>
+      <if test="tprof != null">
+        #{tprof,jdbcType=VARCHAR},
+      </if>
+      <if test="depart != null">
+        #{depart,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.springbootdemo.domain.entity.Teacher">
+    update teacher
+    <set>
+      <if test="tname != null">
+        Tname = #{tname,jdbcType=VARCHAR},
+      </if>
+      <if test="tsex != null">
+        Tsex = #{tsex,jdbcType=VARCHAR},
+      </if>
+      <if test="tbirthday != null">
+        Tbirthday = #{tbirthday,jdbcType=DATE},
+      </if>
+      <if test="tprof != null">
+        Tprof = #{tprof,jdbcType=VARCHAR},
+      </if>
+      <if test="depart != null">
+        Depart = #{depart,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Tno = #{tno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.springbootdemo.domain.entity.Teacher">
+    update teacher
+    set Tname = #{tname,jdbcType=VARCHAR},
+      Tsex = #{tsex,jdbcType=VARCHAR},
+      Tbirthday = #{tbirthday,jdbcType=DATE},
+      Tprof = #{tprof,jdbcType=VARCHAR},
+      Depart = #{depart,jdbcType=VARCHAR}
+    where Tno = #{tno,jdbcType=VARCHAR}
+  </update>
+</mapper>

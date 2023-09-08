@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springbootdemo.infra.mapper.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.example.springbootdemo.domain.entity.Student">
+    <id column="Sno" jdbcType="VARCHAR" property="sno" />
+    <result column="Sname" jdbcType="VARCHAR" property="sname" />
+    <result column="Ssex" jdbcType="VARCHAR" property="ssex" />
+    <result column="Sbirthday" jdbcType="DATE" property="sbirthday" />
+    <result column="Sclass" jdbcType="VARCHAR" property="sclass" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    Sno, Sname, Ssex, Sbirthday, Sclass
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where Sno = #{sno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from student
+    where Sno = #{sno,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" keyColumn="Sno" keyProperty="sno" parameterType="com.example.springbootdemo.domain.entity.Student" useGeneratedKeys="true">
+    insert into student (Sname, Ssex, Sbirthday, 
+      Sclass)
+    values (#{sname,jdbcType=VARCHAR}, #{ssex,jdbcType=VARCHAR}, #{sbirthday,jdbcType=DATE}, 
+      #{sclass,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" keyColumn="Sno" keyProperty="sno" parameterType="com.example.springbootdemo.domain.entity.Student" useGeneratedKeys="true">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sname != null">
+        Sname,
+      </if>
+      <if test="ssex != null">
+        Ssex,
+      </if>
+      <if test="sbirthday != null">
+        Sbirthday,
+      </if>
+      <if test="sclass != null">
+        Sclass,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sname != null">
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="ssex != null">
+        #{ssex,jdbcType=VARCHAR},
+      </if>
+      <if test="sbirthday != null">
+        #{sbirthday,jdbcType=DATE},
+      </if>
+      <if test="sclass != null">
+        #{sclass,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertStudents">
+    INSERT INTO student(<include refid="Base_Column_List" />)
+    VALUES
+    <foreach collection ="students" item="student" separator ="," >
+      (#{student.sno}, #{student.sname}, #{student.ssex},#{student.sbirthday},#{student.sclass})
+    </foreach >
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.springbootdemo.domain.entity.Student">
+    update student
+    <set>
+      <if test="sname != null">
+        Sname = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="ssex != null">
+        Ssex = #{ssex,jdbcType=VARCHAR},
+      </if>
+      <if test="sbirthday != null">
+        Sbirthday = #{sbirthday,jdbcType=DATE},
+      </if>
+      <if test="sclass != null">
+        Sclass = #{sclass,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Sno = #{sno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.springbootdemo.domain.entity.Student">
+    update student
+    set Sname = #{sname,jdbcType=VARCHAR},
+      Ssex = #{ssex,jdbcType=VARCHAR},
+      Sbirthday = #{sbirthday,jdbcType=DATE},
+      Sclass = #{sclass,jdbcType=VARCHAR}
+    where Sno = #{sno,jdbcType=VARCHAR}
+  </update>
+
+  <select id="allStudent"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from student
+  </select>
+
+
+  <select id="getStudent" resultMap="Student_Score">
+    select *
+    from score left join student on score.sno=student.sno
+  </select>
+
+  <resultMap id="Student_Score" type="com.example.springbootdemo.domain.entity.Student_Score">
+    <association property="student" javaType="com.example.springbootdemo.domain.entity.Student">
+      <id column="Sno" jdbcType="VARCHAR" property="sno" />
+      <result column="Sname" jdbcType="VARCHAR" property="sname" />
+      <result column="Ssex" jdbcType="VARCHAR" property="ssex" />
+      <result column="Sbirthday" jdbcType="DATE" property="sbirthday" />
+      <result column="Sclass" jdbcType="VARCHAR" property="sclass" />
+    </association>
+    <association property="score" javaType="com.example.springbootdemo.domain.entity.Score">
+      <id column="Sno" jdbcType="VARCHAR" property="sno" />
+      <id column="Cno" jdbcType="VARCHAR" property="cno" />
+      <result column="Degree" jdbcType="DECIMAL" property="degree" />
+    </association>
+  </resultMap>
+
+
+
+</mapper>

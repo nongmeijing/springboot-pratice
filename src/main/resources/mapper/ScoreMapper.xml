@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springbootdemo.infra.mapper.ScoreMapper">
+  <resultMap id="BaseResultMap" type="com.example.springbootdemo.domain.entity.Score">
+    <id column="Sno" jdbcType="VARCHAR" property="sno" />
+    <id column="Cno" jdbcType="VARCHAR" property="cno" />
+    <result column="Degree" jdbcType="DECIMAL" property="degree" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Sno, Cno, `Degree`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.example.springbootdemo.domain.entity.ScoreKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from score
+    where Sno = #{sno,jdbcType=VARCHAR}
+      and Cno = #{cno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.example.springbootdemo.domain.entity.ScoreKey">
+    delete from score
+    where Sno = #{sno,jdbcType=VARCHAR}
+      and Cno = #{cno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="Sno" keyProperty="sno" parameterType="com.example.springbootdemo.domain.entity.Score" useGeneratedKeys="true">
+    insert into score (Cno, `Degree`)
+    values (#{cno,jdbcType=VARCHAR}, #{degree,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" keyColumn="Sno" keyProperty="sno" parameterType="com.example.springbootdemo.domain.entity.Score" useGeneratedKeys="true">
+    insert into score
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cno != null">
+        Cno,
+      </if>
+      <if test="degree != null">
+        `Degree`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cno != null">
+        #{cno,jdbcType=VARCHAR},
+      </if>
+      <if test="degree != null">
+        #{degree,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.springbootdemo.domain.entity.Score">
+    update score
+    <set>
+      <if test="degree != null">
+        `Degree` = #{degree,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where Sno = #{sno,jdbcType=VARCHAR}
+      and Cno = #{cno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.springbootdemo.domain.entity.Score">
+    update score
+    set `Degree` = #{degree,jdbcType=DECIMAL}
+    where Sno = #{sno,jdbcType=VARCHAR}
+      and Cno = #{cno,jdbcType=VARCHAR}
+  </update>
+</mapper>
