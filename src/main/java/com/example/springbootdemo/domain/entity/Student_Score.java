@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Student_Score {
     private Student student;
     private Score score;
+    private Course course;
     private static final long serialVersionUID = 1L;
 
     @Override

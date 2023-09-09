@@ -1,6 +1,7 @@
 package com.example.springbootdemo.api.controller;
 
 import com.example.springbootdemo.domain.entity.Student;
+import com.example.springbootdemo.domain.entity.Student_Score;
 import com.example.springbootdemo.domain.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,14 @@ public class StudentController {
     }
 
     /**
+     * 根据Sno查询学生
+     */
+    @GetMapping("/selectBySno")
+    public Student selectByPrimaryKey(String sno){
+        return studentRepository.selectByPrimaryKey(sno);
+    }
+
+    /**
      * @return 多表查询，获取学生及其成绩
      */
     @GetMapping("/getStudent")
@@ -39,6 +48,13 @@ public class StudentController {
         return studentRepository.getStudent();
     }
 
+    /**
+     * 获取学生的课程以及相对应的成绩
+     */
+    @GetMapping("/getmark")
+    public List<Student_Score> getmark(){
+        return studentRepository.getmark();
+    }
 
     /**
      * 新增学生
@@ -51,6 +67,13 @@ public class StudentController {
         return studentRepository.insertStudent(name,sex,date,sclass);
     }
 
+    /**
+     * 批量插入学生信息
+     */
+    @PostMapping("/insertStudents")
+    public int insertStudents(List<Student> students) {
+        return studentRepository.insertStudents(students);
+    }
 
     /**
      * @return Thymeleaf练习，在页面上展示所有学生信息

@@ -106,6 +106,30 @@
     select *
     from score left join student on score.sno=student.sno
   </select>
+  <select id="getmark" resultType="com.example.springbootdemo.domain.entity.Student_Score" resultMap="sscourcse">
+    select *
+    from student left join score on student.sno=score.sno left join course on course.cno=score.cno
+  </select>
+
+  <resultMap id="sscourcse" type="com.example.springbootdemo.domain.entity.Student_Score">
+    <association property="student" javaType="com.example.springbootdemo.domain.entity.Student">
+      <id column="Sno" jdbcType="VARCHAR" property="sno" />
+      <result column="Sname" jdbcType="VARCHAR" property="sname" />
+      <result column="Ssex" jdbcType="VARCHAR" property="ssex" />
+      <result column="Sbirthday" jdbcType="DATE" property="sbirthday" />
+      <result column="Sclass" jdbcType="VARCHAR" property="sclass" />
+    </association>
+    <association property="course" javaType="com.example.springbootdemo.domain.entity.Course">
+      <id column="Cno" jdbcType="VARCHAR" property="cno" />
+      <result column="Cname" jdbcType="VARCHAR" property="cname" />
+      <result column="Tno" jdbcType="VARCHAR" property="tno" />
+    </association>
+    <association property="score" javaType="com.example.springbootdemo.domain.entity.Score">
+      <id column="Sno" jdbcType="VARCHAR" property="sno" />
+      <id column="Cno" jdbcType="VARCHAR" property="cno" />
+      <result column="Degree" jdbcType="DECIMAL" property="degree" />
+    </association>
+  </resultMap>
 
   <resultMap id="Student_Score" type="com.example.springbootdemo.domain.entity.Student_Score">
     <association property="student" javaType="com.example.springbootdemo.domain.entity.Student">

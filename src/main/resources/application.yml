@@ -1,9 +1,9 @@
 server:
-  port: 8888
+  port: 8089
 
 spring:
   application:
-    name: springboot_learn
+    name: service-hi
   datasource:
     username: hzero
     password: Q4E%kizUy2#m

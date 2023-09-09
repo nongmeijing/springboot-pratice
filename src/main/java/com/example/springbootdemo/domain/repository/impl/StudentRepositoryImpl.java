@@ -1,6 +1,7 @@
 package com.example.springbootdemo.domain.repository.impl;
 
 import com.example.springbootdemo.domain.entity.Student;
+import com.example.springbootdemo.domain.entity.Student_Score;
 import com.example.springbootdemo.domain.repository.StudentRepository;
 import com.example.springbootdemo.infra.mapper.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,21 @@ public class StudentRepositoryImpl implements StudentRepository {
         student.setSsex(sex);
         student.setSclass(sclass);
         return studentMapper.insert(student);
+    }
+
+    @Override
+    public Student selectByPrimaryKey(String sno) {
+        return studentMapper.selectByPrimaryKey(sno);
+    }
+
+    @Override
+    public List<Student_Score> getmark() {
+        return studentMapper.getmark();
+    }
+
+    @Override
+    public int insertStudents(List<Student> students) {
+        return studentMapper.insertStudents(students);
     }
 
 

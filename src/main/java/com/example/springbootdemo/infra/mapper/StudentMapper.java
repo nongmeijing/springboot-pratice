@@ -1,6 +1,7 @@
 package com.example.springbootdemo.infra.mapper;
 
 import com.example.springbootdemo.domain.entity.Student;
+import com.example.springbootdemo.domain.entity.Student_Score;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.ResultMap;
 
@@ -26,4 +27,7 @@ public interface StudentMapper {
     List<Student> getStudent();
 
     int insertStudents(List<Student> students);
+
+    List<Student_Score> getmark();
+
 }
